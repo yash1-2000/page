@@ -1,0 +1,42 @@
+.show-hide-details-input-container {
+  position: relative;
+}
+.show-hide-details-btn {
+  position: absolute;
+  top: 25%;
+  left: -5%;
+  display: block;
+  float: right;
+  border-radius: 4px;
+  padding: 1px 10px;
+  margin-left: -4rem;
+  color: #fff;
+  font-weight: normal;
+  background: rgb(0, 68, 124);
+  cursor: pointer;
+  font-size: 11px;
+}
+.tooltip-icon {
+  position: relative;
+}
+.tooltip-content {
+  display: none;
+  z-index: 22;
+  position: absolute;
+  width: 300px;
+  left: 0;
+  border: 1px solid #ececec;
+  padding: 15px;
+  margin-top: 1rem;
+  border-radius: 6px;
+  color: #333;
+  background: #fff;
+  font-size: 13px;
+  text-align: left;
+}
+.tooltip-icon:hover .tooltip-content {
+  display: block;
+}
+.two-inputs-row.col-sm{
+padding: 0;
+}
