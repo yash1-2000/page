@@ -13,11 +13,14 @@
       crossorigin="anonymous"
     />
   </head>
+
   <body style="padding: 0 8rem">
+    <div class="whole"></div>
     <div>
       <secction class="incom-and-tax-calculator-form-section">
         <br /><br />
         <form class="incom-and-tax-calculator-form">
+          <!-- ---------------------------------------------condiditional setter---------------------------------------------------->
           <div
             class="row justify-content-between align-content-center assessment-year"
           >
@@ -25,7 +28,11 @@
               >Assessment Year</label
             >
             <div class="col-sm-3 col-xs-12">
-              <select class="form-select">
+              <select
+                class="form-select"
+                id="AssessmentYearSelect"
+                onchange="onSelectChange(event)"
+              >
                 <option selected="selected" value="Select">Select</option>
                 <option value="2023-24">2023-24</option>
                 <option value="2022-23">2022-23</option>
@@ -45,6 +52,23 @@
             </div>
           </div>
           <br />
+          <!-- -------------------------------------------------conditional----------------------------------------------- -->
+          <div id="taxation-opting-dropDown-div">
+            <div class="row justify-content-between align-content-center">
+              <label class="col-sm-9 col-xs-12 control-label"
+                >Whether opting for taxation under Section 115BAC?</label
+              >
+              <div class="col-sm-3 col-xs-12">
+                <select class="form-select">
+                  <option selected="selected" value="Select">Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+            <br />
+          </div>
+
           <div
             class="row justify-content-between align-content-center tax-payer"
           >
@@ -103,14 +127,19 @@
             </div>
           </div>
           <br />
+          <!-- ----------------------------------------condition text display based on #taxation-opting-dropDown-div-------------------------------- -->
           <div
             class="row justify-content-between align-content-center income-from-salary"
           >
-            <label class="col-sm-9 col-xs-12 control-label"
+            <label class="col-sm-9 col-xs-12 control-label" id="income-from-salary-label"
               >Income from Salary</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <br />
@@ -131,12 +160,146 @@
             >
 
             <div class="col-sm-3 col-xs-12 show-hide-details-input-container">
-              <span class="show-hide-details-btn">
-                <span>Show Details</span>
+              <span
+                class="show-hide-details-btn"
+                onclick="toggleDiv('IncomeFromHouseProperty','IncomeFromHousePropertyToggleBtn')"
+              >
+                <span id="IncomeFromHousePropertyToggleBtn">Show Details</span>
               </span>
               <input class="form-control bg-body-secondary" type="text" />
             </div>
           </div>
+          <br />
+          <!-- -----------------------------------------------Income From House Property show details-------------------------- -->
+          <div
+            class="border border-secondary rounded-4 p-5"
+            id="IncomeFromHouseProperty"
+          >
+            <div>
+              <div>
+                <p class="fs-5 fw-bold">
+                  A. Income from Self-occupied Property
+                </p>
+                <br />
+                <p class="fs-6">Interest Paid/Payable on Housing Loan</p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >1. Interest on Housing Loan</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >Income from self-occupied house property</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control" type="text" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br />
+                <p class="fs-5 fw-bold">B. Income from Let-out Property</p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >1. Annual Letable Value/Rent Received or Receivable</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >2. Less: Municipal Taxes Paid During the Year</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >3. Less:Unrealized Rent</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >4. Net Annual Value (1-(2+3))</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control bg-body-secondary" type="text" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br />
+                <p class="fs-5 fw-bold">
+                  Less: Deductions from Net Annual Value
+                </p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >i. Standard Deduction @ 30% of Net Annual Value</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control" type="text" />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >ii. Interest on Housing Loan</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >Income from Let-out House Property</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control bg-body-secondary" type="text" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ----------------------------------------------------------------------------------------------------------------- -->
+
           <br />
           <div
             class="row justify-content-between align-content-center capital-gains"
@@ -146,12 +309,293 @@
             </label>
 
             <div class="col-sm-3 col-xs-12 show-hide-details-input-container">
-              <span class="show-hide-details-btn">
-                <span>Show Details</span>
+              <span
+                class="show-hide-details-btn"
+                onclick="toggleDiv('CapitalGians','CapitalGiansToggleBtn')"
+              >
+                <span id="CapitalGiansToggleBtn">Show Details</span>
               </span>
               <input class="form-control bg-body-secondary" type="text" />
             </div>
           </div>
+          <br />
+          <!-- -----------------------------------------------Capital Gains show details-------------------------- -->
+          <div class="border border-secondary rounded-4 p-5" id="CapitalGians">
+            <div>
+              <div>
+                <p class="fs-5 fw-bold">
+                  Short Term Capital GainS (Other than covered under section
+                  111A)
+                </p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/06/2014 to 15/09/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/09/2014 to 15/12/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/12/2014 to 15/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/03/2015 to 31/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                    >Total</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control bg-body-secondary" type="text" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br />
+                <p class="fs-5 fw-bold">
+                  Short Term Capital GainS (Covered under section 111A)
+                </p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/06/2014 to 15/09/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/09/2014 to 15/12/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/12/2014 to 15/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/03/2015 to 31/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                    >Total</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control bg-body-secondary" type="text" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br />
+                <p class="fs-5 fw-bold">
+                  Long Term Capital Gains (Charged to tax @ 20%)
+                </p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/06/2014 to 15/09/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/09/2014 to 15/12/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/12/2014 to 15/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/03/2015 to 31/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                    >Total</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control bg-body-secondary" type="text" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <br />
+                <p class="fs-5 fw-bold">
+                  Long Term Capital Gains (Charged to tax @ 10%)
+                </p>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/06/2014 to 15/09/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 16/09/2014 to 15/12/2014</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/12/2014 to 15/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label"
+                    >From 15/03/2015 to 31/03/2015</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input
+                      class="form-control"
+                      type="text"
+                      onblur="onBlurChange(this)"
+                    />
+                  </div>
+                </div>
+                <br />
+                <div class="row justify-content-between align-content-center">
+                  <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                    >Total</label
+                  >
+                  <div class="col-sm-3 col-xs-12">
+                    <input class="form-control bg-body-secondary" type="text" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ----------------------------------------------------------------------------------------------------------------- -->
           <br />
           <div
             class="row justify-content-between align-content-center income-from-other-sources"
@@ -161,12 +605,63 @@
             </label>
 
             <div class="col-sm-3 col-xs-12 show-hide-details-input-container">
-              <span class="show-hide-details-btn">
-                <span>Show Details</span>
+              <span
+                class="show-hide-details-btn"
+                onclick="toggleDiv('IncomeFromOtherSources','IncomeFromOtherSourcesToggleBtn')"
+              >
+                <span id="IncomeFromOtherSourcesToggleBtn">Show Details</span>
               </span>
               <input class="form-control bg-body-secondary" type="text" />
             </div>
           </div>
+          <br />
+          <!-- -----------------------------------------------Income From Other Sources show details-------------------------- -->
+          <div
+            class="border border-secondary rounded-4 p-5"
+            id="IncomeFromOtherSources"
+          >
+            <div>
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Interest</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Commission/Other Income</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Winnings from Lottery, Crossword Puzzles, etc.</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ----------------------------------------------------------------------------------------------------------------- -->
           <br />
           <div
             class="row justify-content-between align-content-center gains-form-business"
@@ -176,7 +671,11 @@
               only)</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <br />
@@ -187,7 +686,11 @@
               >Agricultural Income</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <br />
@@ -197,12 +700,383 @@
             <label class="col-sm-9 col-xs-12 control-label">Deductions </label>
 
             <div class="col-sm-3 col-xs-12 show-hide-details-input-container">
-              <span class="show-hide-details-btn">
-                <span>Show Details</span>
+              <span
+                class="show-hide-details-btn"
+                onclick="toggleDiv('Deductions','DeductionsToggleBtn')"
+              >
+                <span id="DeductionsToggleBtn">Show Details</span>
               </span>
               <input class="form-control bg-body-secondary" type="text" />
             </div>
           </div>
+          <br />
+          <!-- -----------------------------------------------Deductions show details-------------------------- -->
+          <div class="border border-secondary rounded-4 p-5" id="Deductions">
+            <div>
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Life Insurance premium paid</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Payment for annuity plan</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Contribution toward provident fund / PPF</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Investment in NSC (VIII issue) + Interest</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Contribution toward ULIP</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Contribution toward notified pension fund by MF/UTI</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Re-payment of housing loan etc</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Tuition fees paid for children</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >5 Years fixed deposit with PO or Schedule Bank</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Contribution toward NPF</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Employee's / Self-employed contribution toward NPS (up to
+                  20%) (u/s 80CCD)
+                </label>
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Additional contribution towards NPS [u/s 80CCD(1B)]</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Employer's contribution toward NPS (u/s 80CCD)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Deposit with Sukanya Samridhi Accounts</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Any other deductable (u/s 80C)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Total</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input class="form-control" type="text" />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Medi-claim premium (u/s 80D)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Actual payment towards medical treatment (u/s 80DDB )</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Donations (u/s 80G)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Deduction for maintenance / medical treatment of dependent
+                  (u/s 80DD)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input class="form-control" type="text" />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckDefault"
+                  />&nbsp;&nbsp;&nbsp;Tick if 80DD is claimed</label
+                >
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckDefault"
+                  />&nbsp;&nbsp;&nbsp;Tick if severe disability</label
+                >
+              </div>
+              <br />
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Interest on loan for higher education (u/s 80E)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Interest on loan taken for Residential House (u/s
+                  80EE)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Deduction in case of a person with disability (u/s
+                  80U)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input class="form-control" type="text" />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckDefault"
+                  />&nbsp;&nbsp;&nbsp;Tick if 80U is claimed</label
+                >
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="flexCheckDefault"
+                  />&nbsp;&nbsp;&nbsp;Tick if severe disability</label
+                >
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Interest on deposits in saving account (u/s 80TTA)</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+              <br />
+              <div class="row justify-content-between align-content-center">
+                <label class="col-sm-9 col-xs-12 control-label fw-bold"
+                  >Any other deductions</label
+                >
+                <div class="col-sm-3 col-xs-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    onblur="onBlurChange(this)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ----------------------------------------------------------------------------------------------------------------- -->
           <br />
           <div
             class="row justify-content-between align-content-center net-taxable-income"
@@ -382,7 +1256,11 @@
               >Due date of submission of return</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <br />
@@ -392,7 +1270,11 @@
               assessment</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <br />
@@ -401,7 +1283,11 @@
               >Relief Other Than Relief U/S 87A</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <br />
@@ -410,7 +1296,11 @@
               >TDS/TCS/MAT (AMT) Credit Utilized</label
             >
             <div class="col-sm-3 col-xs-12">
-              <input class="form-control" type="text" />
+              <input
+                class="form-control"
+                type="text"
+                onblur="onBlurChange(this)"
+              />
             </div>
           </div>
           <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -426,14 +1316,23 @@
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody id="DetailOfTaxPaidTableBody">
+              <tr class="DetailOfTaxPaidTableRowClass">
                 <th scope="row"></th>
                 <td></td>
-                <td></td>
+                <td class="deleteRowOption" onclick="removeTableRow(this)">
+                  x
+                </td>
               </tr>
             </tbody>
           </table>
+          <br />
+          <span
+            class="badge rounded-pill bg-primary float-end p-2 add-row-option"
+            onclick="addTableRow('DetailOfTaxPaidTableBody','DetailOfTaxPaidTableRowClass')"
+            >+ Add Row</span
+          >
+          <br />
           <!-- --------------------------------------------------------------------------------------------------------------------------------------------------------- -->
           <br />
           <div class="row justify-content-between align-content-center">
