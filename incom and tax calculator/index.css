@@ -10,15 +10,33 @@
 
 .whole {
   display: none;
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 100vh;
-  top: 0;
+  height: 100%;
+  bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.623);
   z-index: 10;
 }
-
+.form-heading {
+  display: flex;
+  justify-content: start;
+  height: 60px;
+  width: 100%;
+  border-bottom: 1.5px solid rgb(175, 175, 175);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.heading {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  border-top-left-radius: 10px;
+  background-color: #24a7df;
+}
 #taxation-opting-dropDown-div {
   display: none;
 }
@@ -38,7 +56,7 @@
   margin-left: -4rem;
   color: #fff;
   font-weight: normal;
-  background: rgb(0, 68, 124);
+  background: #24a7df;
   cursor: pointer;
   font-size: 11px;
 }
@@ -46,6 +64,18 @@
 .tooltip-icon {
   position: relative;
   z-index: 23;
+}
+
+.tooltip-icon-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: #24a7df;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .tooltip-content {
@@ -57,7 +87,7 @@
   left: 0;
   border: 1px solid #ececec;
   padding: 15px;
-  margin-top: 1rem;
+  margin-top: 2rem;
   border-radius: 6px;
   color: #333;
   background: #fff;
@@ -86,4 +116,10 @@
 
 .add-row-option {
   cursor: pointer;
+  background-color: #24a7df;
+}
+
+.thead-row {
+  background-color: #24a7df;
+  color: white;
 }
