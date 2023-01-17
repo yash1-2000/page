@@ -62,6 +62,75 @@ const onSelectChange = (e) => {
   }
 };
 
+const BACCheck = (e) => {
+  const childArr = Array.from(
+    document.getElementById("data-deductionInput").children
+  );
+  const IncomeFromSelfOccupiedPropertyElement = document.getElementById(
+    "IncomeFromSelfOccupiedPropertyElement"
+  );
+  if (e.target.value === "Yes") {
+    childArr.forEach((elem) => {
+      if (elem.id !== "EmployersContriTowardsNPS80CCDElement") {
+        elem.style.display = "none";
+      }
+    });
+    document.getElementById("income-from-salary-label").innerText =
+      "Income from salary (Income from Salary before Exemptions/Deductions";
+    IncomeFromSelfOccupiedPropertyElement.style.display = "none";
+  } else {
+    childArr.forEach((elem) => (elem.style.display = ""));
+    document.getElementById("income-from-salary-label").innerText =
+      "Income from Salary (Income from salary after standard deduction of Rs.50000.)";
+    IncomeFromSelfOccupiedPropertyElement.style.display = "";
+  }
+  clearDeductions();
+};
+
+const clearDeductions = () => {
+  document.getElementById("DeductionsInput1").value = "";
+  document.getElementById("DeductionsInput2").value = "";
+  document.getElementById("DeductionsInput3").value = "";
+  document.getElementById("DeductionsInput4").value = "";
+  document.getElementById("DeductionsInput5").value = "";
+  document.getElementById("DeductionsInput6").value = "";
+  document.getElementById("DeductionsInput7").value = "";
+  document.getElementById("DeductionsInput8").value = "";
+  document.getElementById("DeductionsInput9").value = "";
+  document.getElementById("DeductionsInput10").value = "";
+  document.getElementById("DeductionsInput11").value = "";
+  document.getElementById("DeductionsInput12").value = "";
+  document.getElementById("DeductionsInput13").value = "";
+  document.getElementById("DeductionsInput14").value = "";
+  document.getElementById("DeductionsInput15").value = "";
+  document.getElementById("DeductionsInput16").value = "";
+  document.getElementById("DeductionsInput17").value = "";
+  document.getElementById("DeductionsInput18").value = "";
+  document.getElementById("DeductionsInput19").value = "";
+  document.getElementById("DeductionsInput20").value = "";
+  document.getElementById("DeductionsInput21").value = "";
+  document.getElementById("DeductionsInput22").value = "";
+  document.getElementById("DeductionsInput23").value = "";
+  document.getElementById("DeductionsInput24").value = "";
+  document.getElementById("DeductionsInput25").value = "";
+  document.getElementById("DeductionsInput26").value = "";
+  document.getElementById("deduction80DDCheckboxnumber").value = "";
+  document.getElementById("deduction80UCheckboxnumber").value = "";
+  document.getElementById("EmployersContriTowardsNPS80CCDElement").value = "";
+
+  document.getElementById("deduction80DDCheckboxIfClaimed").checked = false;
+  document.getElementById("deduction80DDCheckboxIfDisable").checked = false;
+  document.getElementById("deduction80UCheckboxIfClaimed").checked = false;
+  document.getElementById("deduction80UCheckboxIfDisable").checked = false;
+
+  console.log(
+    document.getElementById("deduction80DDCheckboxIfClaimed").checked,
+    document.getElementById("deduction80DDCheckboxIfDisable").checked,
+    document.getElementById("deduction80UCheckboxIfClaimed").checked,
+    document.getElementById("deduction80UCheckboxIfDisable").checked
+  );
+};
+
 const onTaxPayerTypeSelectChange = (e) => {
   if (e.target.value !== "Individual") {
     document
@@ -81,6 +150,64 @@ const onBlurChange = (e) => {
     e.style.borderColor = "#dee2e6";
   }
 };
+
+// -----------------------------------------IncomeFromHouseProperty calculations----------------------------------------------------------
+
+const calculateIncomeFromHouseProperty = () => {
+  const firstVal = parseInt(
+    document.getElementById("IncomeFromSelfOccupiedHousePropertyInput").value
+  );
+  // const secondVal = parseInt(
+  //   document.getElementById("NetAnualValueInput").value
+  // );
+  const secondVal = parseInt(
+    document.getElementById("IncomeFromLetOutHousePropertyInput").value
+  );
+  console.log(firstVal, secondVal);
+  document.getElementById("IncomeFromHousePropertyMainInputView").value =
+    parseValues(secondVal) + parseValues(firstVal);
+};
+
+const onHousingLoanInterestFieldChange = (e) => {
+  document.getElementById("IncomeFromSelfOccupiedHousePropertyInput").value =
+    -Math.abs(e.target.value);
+  calculateIncomeFromHouseProperty();
+};
+
+const calculateIncomeFromLetOutHouseProperty = () => {
+  const firstVal = parseInt(document.getElementById("LetOutInput1").value);
+  const secondVal = parseInt(document.getElementById("LetOutInput2").value);
+  const thirdVal = parseInt(document.getElementById("LetOutInput3").value);
+  const calculatedValue = calculateTotal([
+    firstVal,
+    -Math.abs(calculateTotal([secondVal, thirdVal])),
+  ]);
+  document.getElementById("NetAnualValueInput").value = calculatedValue;
+  document.getElementById("30PDeductionOfNetAnnualValueInput").value =
+    calculatedValue < 0 ? 0 : calculatedValue * 0.3;
+  calculateLetOutHouseProperty();
+  calculateIncomeFromHouseProperty();
+};
+
+const calculateLetOutHouseProperty = () => {
+  const firstVal = parseInt(
+    document.getElementById("NetAnualValueInput").value
+  );
+  const secondVal = parseInt(
+    document.getElementById("30PDeductionOfNetAnnualValueInput").value
+  );
+  const thirdVal = parseInt(
+    document.getElementById("HousingLoanInterestInput").value
+  );
+
+  const calculatedVal =
+    parseValues(firstVal) - parseValues(secondVal) - parseValues(thirdVal);
+  document.getElementById("IncomeFromLetOutHousePropertyInput").value =
+    calculatedVal;
+  calculateIncomeFromHouseProperty();
+};
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------
 
 const calculateIncomeFromOtherSources = () => {
   const firstVal = parseInt(
@@ -183,7 +310,7 @@ const calculateDeductionValue = () => {
       .getElementById("data-deductionInput")
       .querySelectorAll("input[data-deductionInput]")
   );
-  const totalField = document.getElementById("deductions-total-field");
+  const totalField = document.getElementById("DeductionsInput18");
   const DeductionsMainInputView = document.getElementById(
     "DeductionsMainInputView"
   );
@@ -208,6 +335,26 @@ const calculateTotal = (valueArr) => {
   }, 0);
 
   return total;
+};
+
+const calculateTotalNve = (valueArr) => {
+  const total = valueArr.reduce((acc, curr) => {
+    if (isNaN(curr)) {
+      return acc - 0;
+    } else {
+      return acc - curr;
+    }
+  }, 0);
+
+  return total;
+};
+
+const parseValues = (value) => {
+  if (isNaN(value)) {
+    return 0;
+  } else {
+    return value;
+  }
 };
 
 // ------------------------------------Hover events-----------------------------------------------
